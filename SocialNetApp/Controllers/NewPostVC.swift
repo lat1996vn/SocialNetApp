@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewPostVC: UIViewController {
+class NewPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // -MARK: variables
     let postContentTextView: UITextView = {
         let textView = UITextView()
@@ -29,15 +29,17 @@ class NewPostVC: UIViewController {
     } ()
     
     let addPhotoButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderColor = UIColor(rgb: 0x979797).cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
         button.backgroundColor = UIColor(rgb: 0xD8D8D8)
         button.setTitle("+", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+//        button.tintColor = .clear
+//        button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "Arial", size: 21)
+        
         return button
     } ()
     
@@ -58,10 +60,33 @@ class NewPostVC: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         layoutNewPostVC()
+        addButtonTarget()
         // Do any additional setup after loading the view.
     }
     
     // --MARK: functions
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//        let pickedImage = UIImageView()
+//        pickedImage.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(pickedImage)
+//        NSLayoutConstraint.activate([
+//            pickedImage.topAnchor.constraint(equalTo: addPhotoLabel.bottomAnchor, constant: 50),
+//            pickedImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            pickedImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+//            pickedImage.heightAnchor.constraint(equalTo: pickedImage.widthAnchor)
+//            ])
+//        pickedImage.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+//        pickedImage.contentMode = .scaleToFill
+        let pickedImagez = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        
+//        addPhotoButton.backgroundColor = .clear
+//        addPhotoButton.tintColor = .clear
+        addPhotoButton.setImage(pickedImagez, for: .normal)
+        //addPhotoButton.imageView?.contentMode = .scaleToFill
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
     func setupNavigationBar() {
         self.view.backgroundColor = .white
         self.title = "New Post"
@@ -109,6 +134,17 @@ class NewPostVC: UIViewController {
             addPostButton.widthAnchor.constraint(equalTo: addPostButton.heightAnchor, multiplier: 5.6)
             ])
         
+        
+    }
+    @objc func buttonAddPhotoTapped(sender: UIButton){
+        let imgPikerController = UIImagePickerController()
+        imgPikerController.delegate = self
+        imgPikerController.sourceType = .photoLibrary
+        self.present(imgPikerController, animated: true)
+    }
+    
+    func addButtonTarget() {
+        addPhotoButton.addTarget(self, action: #selector(buttonAddPhotoTapped), for: .touchUpInside)
     }
 }
 

@@ -18,6 +18,7 @@
 		0424929B22C9B2C2004562F2 /* ExtensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0424929A22C9B2C2004562F2 /* ExtensionUIColor.swift */; };
 		0424929D22C9C457004562F2 /* UserProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0424929C22C9C457004562F2 /* UserProfileVC.swift */; };
 		0424929F22C9EDB8004562F2 /* NewFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0424929E22C9EDB8004562F2 /* NewFeedCell.swift */; };
+		0430E2B122CB5F09001FC5E7 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0430E2B022CB5F09001FC5E7 /* RegisterVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		0424929C22C9C457004562F2 /* UserProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVC.swift; sourceTree = "<group>"; };
 		0424929E22C9EDB8004562F2 /* NewFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeedCell.swift; sourceTree = "<group>"; };
 		042492A122C9FC39004562F2 /* Hiragino Sans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hiragino Sans.ttf"; sourceTree = "<group>"; };
+		0430E2B022CB5F09001FC5E7 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				0424928222C9A28E004562F2 /* MainVC.swift */,
 				0424929822C9AB6A004562F2 /* NewPostVC.swift */,
 				0424929C22C9C457004562F2 /* UserProfileVC.swift */,
+				0430E2B022CB5F09001FC5E7 /* RegisterVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				0424929D22C9C457004562F2 /* UserProfileVC.swift in Sources */,
 				0424928122C9A28E004562F2 /* AppDelegate.swift in Sources */,
 				0424929922C9AB6A004562F2 /* NewPostVC.swift in Sources */,
+				0430E2B122CB5F09001FC5E7 /* RegisterVC.swift in Sources */,
 				0424929422C9A525004562F2 /* User.swift in Sources */,
 				0424929622C9A663004562F2 /* Post.swift in Sources */,
 			);

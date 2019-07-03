@@ -64,14 +64,17 @@ class NewFeedCell: UITableViewCell {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(#imageLiteral(resourceName: "icon_like"), for: .normal)
+        btn.heightAnchor.constraint(equalToConstant: 17).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 17).isActive = true
         return btn
     } ()
     
     let likeCountLable: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont(name: "HiraginoSans-W5", size: 11)
+        lbl.font = UIFont(name: "HiraginoSans-W6", size: 11)
         lbl.text = "15"
+        lbl.widthAnchor.constraint(equalToConstant: 25).isActive = true
         return lbl
     } ()
     
@@ -79,14 +82,17 @@ class NewFeedCell: UITableViewCell {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(#imageLiteral(resourceName: "icon_comments"), for: .normal)
+        btn.heightAnchor.constraint(equalToConstant: 17).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 17).isActive = true
         return btn
     } ()
     
     let commentCountLabel: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont(name: "HiraginoSans-W5", size: 11)
+        lbl.font = UIFont(name: "HiraginoSans-W6", size: 11)
         lbl.text = "5"
+        lbl.widthAnchor.constraint(equalToConstant: 25).isActive = true
         return lbl
     } ()
     
@@ -144,8 +150,22 @@ class NewFeedCell: UITableViewCell {
             postImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             postImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 11),
             postImageView.topAnchor.constraint(equalTo: postContentLabel.bottomAnchor, constant: 7),
-            postImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32)
+            //postImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32)
             ])
+        
+        let likeAndCommendStackView = UIStackView(arrangedSubviews: [likeButton, likeCountLable, commentButton, commentCountLabel])
+        likeAndCommendStackView.translatesAutoresizingMaskIntoConstraints = false
+        likeAndCommendStackView.alignment = .center
+        likeAndCommendStackView.axis = .horizontal
+        likeAndCommendStackView.distribution = .fillProportionally
+        likeAndCommendStackView.spacing = 5
+        self.addSubview(likeAndCommendStackView)
+        NSLayoutConstraint.activate([
+            likeAndCommendStackView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 5),
+            likeAndCommendStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            likeAndCommendStackView.leadingAnchor.constraint(equalTo: postImageView.leadingAnchor)
+            ])
+        
     }
     
     func addButtonActions() {
