@@ -11,6 +11,8 @@ import UIKit
 class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     // --MARK: variables
+    var user: User
+    var posts: [Post] = []
     var newsFeedTableView: UITableView = {
         let tbv = UITableView()
         tbv.translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +20,16 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     } ()
     
     // --MARK: viewDidLoad
+    
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         newsFeedTableView.register(NewFeedCell.self, forCellReuseIdentifier: "cellID")
@@ -29,12 +41,12 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     // --MARK: table view functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as? NewFeedCell {
-            //TODO: configCell
+            cell.cellPostLoadData(post: posts[indexPath.row])
             cell.delegate = self
             return cell
         }
@@ -44,6 +56,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     // --MARK: functions
     func setupNavigationBar() {
         self.view.backgroundColor = .white
@@ -54,7 +71,9 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func addNewButtonTapped() {
-        self.navigationController?.pushViewController(NewPostVC(), animated: true)
+        let vc = NewPostVC(poster: user)
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func layoutMainVC() {
@@ -65,14 +84,23 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             newsFeedTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             newsFeedTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             newsFeedTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ])
+        ])
     }
     
 }
 
-extension MainVC: NewFeedCellDelegate {
+extension MainVC: NewFeedCellDelegate, NewPostVCDelegate {
+    func addPostButtonTapComplete(post: Post) {
+        posts.insert(post, at: 0)
+        self.newsFeedTableView.reloadData()
+    }
+    
+    func likeButtonTappedCompleted() {
+        
+    }
+    
     func userImageButtonTappedCompleted() {
-        self.navigationController?.pushViewController(UserProfileVC(), animated: true)
+        self.navigationController?.pushViewController(UserProfileVC(user: user), animated: true)
     }
     
 }

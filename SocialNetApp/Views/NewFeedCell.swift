@@ -10,17 +10,21 @@ import UIKit
 
 protocol NewFeedCellDelegate: AnyObject {
     func userImageButtonTappedCompleted()
+    
+    func likeButtonTappedCompleted()
+    
 }
 
 class NewFeedCell: UITableViewCell {
-    
+    //postvar post: Post!
     //--MARK: variable
     weak var delegate: NewFeedCellDelegate?
     
     let userImageButton: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(#imageLiteral(resourceName: "user_image"), for: .normal)
+        btn.layer.cornerRadius = 17.5
+        btn.clipsToBounds = true
         return btn
     } ()
     
@@ -36,7 +40,6 @@ class NewFeedCell: UITableViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont(name: "Arial", size: 9)
-        lbl.text = "5mins ago"
         return lbl
     } ()
     
@@ -44,7 +47,6 @@ class NewFeedCell: UITableViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont(name: "Arial", size: 9)
-        lbl.text = "Good lunch, good food with my friends ^^ \n Good lunch, good food with my friends ^^Good lunch, good food with my friends ^^ \n Good lunch, good food with my friends ^^"
         lbl.numberOfLines = 0
         return lbl
     } ()
@@ -53,10 +55,8 @@ class NewFeedCell: UITableViewCell {
         let imgView = UIImageView()
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.contentMode = UIView.ContentMode.scaleAspectFill
-        imgView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         imgView.layer.cornerRadius = 10
         imgView.clipsToBounds = true
-        imgView.image = #imageLiteral(resourceName: "image_post")
         return imgView
     } ()
     
@@ -150,8 +150,8 @@ class NewFeedCell: UITableViewCell {
             postImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             postImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 11),
             postImageView.topAnchor.constraint(equalTo: postContentLabel.bottomAnchor, constant: 7),
-            //postImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -32)
             ])
+
         
         let likeAndCommendStackView = UIStackView(arrangedSubviews: [likeButton, likeCountLable, commentButton, commentCountLabel])
         likeAndCommendStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -175,4 +175,19 @@ class NewFeedCell: UITableViewCell {
     @objc func userImageButtonTapped() {
         delegate?.userImageButtonTappedCompleted()
     }
+    
+    @objc func likeButtonTapped() {
+        delegate?.likeButtonTappedCompleted()
+    }
+    
+    func cellPostLoadData(post: Post){
+        userImageButton.setImage(post.poster.image, for: .normal)
+        usernameLable.text = post.poster.username
+        timeCreatedLabel.text = "just now"
+        postContentLabel.text = post.postContent
+        postImageView.image = post.postImage
+        likeCountLable.text = String(post.like)
+        commentCountLabel.text = String(post.comment)
+    }
+    
 }

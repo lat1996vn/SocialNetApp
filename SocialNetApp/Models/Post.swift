@@ -12,23 +12,26 @@ import UIKit
 struct Post {
     //var postID: Int!
     //var posterID: Int = 1
-    var poster: User!
-    var likedUser: [Int] = []
+    var poster: User
+    var like: Int
     var postContent: String
     var createTime: Date
     var postImage: UIImage?
-    var commentID: [Int] = []
-    
-    init(poster: User, postContent: String, postImage: UIImage? ) {
+    var comment: Int
+    init(poster: User, postContent: String, postImage: UIImage?) {
         self.poster = poster
         self.postContent = postContent
-        self.postImage = postImage
+        if let img = postImage {
+            self.postImage = img
+        }
         self.createTime = Date()
+        self.like = 0
+        self.comment = 0
     }
     
-    mutating func setPostImage(image: UIImage) {
-        self.postImage = image
-    }
+//    mutating func setPostImage(image: UIImage) {
+//        self.postImage = image
+//    }
     
     
 }

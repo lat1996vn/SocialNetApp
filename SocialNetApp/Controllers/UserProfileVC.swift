@@ -10,11 +10,15 @@ import UIKit
 
 class UserProfileVC: UIViewController, UITextFieldDelegate {
     //--MARK: variables
+    
+    var user: User
+    
     let userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = #imageLiteral(resourceName: "user_image")
-        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        
+        imageView.contentMode = .scaleAspectFill
         return imageView
     } ()
     
@@ -29,6 +33,7 @@ class UserProfileVC: UIViewController, UITextFieldDelegate {
         textField.leftViewMode = .always
         textField.autocorrectionType = UITextAutocorrectionType.no
         textField.returnKeyType = .done
+        textField.placeholder = "username"
         return textField
     } ()
     
@@ -43,6 +48,7 @@ class UserProfileVC: UIViewController, UITextFieldDelegate {
         textField.leftViewMode = .always
         textField.autocorrectionType = UITextAutocorrectionType.no
         textField.returnKeyType = .done
+        textField.placeholder = "address"
         return textField
     } ()
     
@@ -57,10 +63,20 @@ class UserProfileVC: UIViewController, UITextFieldDelegate {
         textField.leftViewMode = .always
         textField.autocorrectionType = UITextAutocorrectionType.no
         textField.returnKeyType = .done
+        textField.placeholder = "birthday"
         return textField
     } ()
     
     //--MARK: viewDidLoad
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameTextField.delegate = self
@@ -68,6 +84,7 @@ class UserProfileVC: UIViewController, UITextFieldDelegate {
         birthdayTextField.delegate = self
         setupNavigationBar()
         layoutUserProfileVC()
+        loadUserInfo()
     }
     
     //--MARK: functions
@@ -116,5 +133,16 @@ class UserProfileVC: UIViewController, UITextFieldDelegate {
             userInforTextFieldStackView.widthAnchor.constraint(equalToConstant: 335)
             ])
     }
-
+    
+    func loadUserInfo() {
+        userImageView.image = user.image
+        usernameTextField.text = user.username
+        addressTextField.text = user.address
+        birthdayTextField.text = user.birthday
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        userImageView.layer.cornerRadius = userImageView.frame.height/2
+    }
 }

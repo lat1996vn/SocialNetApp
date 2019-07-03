@@ -8,8 +8,25 @@
 
 import UIKit
 
+protocol NewPostVCDelegate: AnyObject {
+    func addPostButtonTapComplete(post: Post)
+}
+
 class NewPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // -MARK: variables
+    var post: Post?
+    var poster: User
+    
+    init(poster: User) {
+        self.poster = poster
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    weak var delegate: NewPostVCDelegate?
     let postContentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -136,15 +153,37 @@ class NewPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         
     }
-    @objc func buttonAddPhotoTapped(sender: UIButton){
+    @objc func buttonAddPhotoTapped(sender: UIButton) {
         let imgPikerController = UIImagePickerController()
         imgPikerController.delegate = self
         imgPikerController.sourceType = .photoLibrary
         self.present(imgPikerController, animated: true)
     }
     
+    @objc func addPostButtonTapped() {
+        
+        
+        guard postContentTextView.text != "" else {
+            let ac = UIAlertController(title: "Register Error!!", message: "Please enter content that you want to post.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (ation) in
+                ac.dismiss(animated: true, completion: nil)
+            }))
+            self.present(ac, animated: true)
+            return
+        }
+        
+        guard  postContentTextView.text != "" else {
+            return
+        }
+        
+        post = Post(poster: poster, postContent: postContentTextView.text, postImage: addPhotoButton.imageView?.image)
+        delegate?.addPostButtonTapComplete(post: post!)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func addButtonTarget() {
         addPhotoButton.addTarget(self, action: #selector(buttonAddPhotoTapped), for: .touchUpInside)
+        addPostButton.addTarget(self, action: #selector(addPostButtonTapped), for: .touchUpInside)
     }
 }
 
